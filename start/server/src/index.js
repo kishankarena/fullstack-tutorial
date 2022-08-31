@@ -7,6 +7,7 @@ const LaunchAPI = require('./datasources/launch');
 const UserAPI = require('./datasources/user');
 const isEmail = require('isemail');
 
+require('dotenv').config();
 const store = createStore();
 
 const server = new ApolloServer({
@@ -16,11 +17,11 @@ const server = new ApolloServer({
     if (!isEmail.validate(email)) {
       return { user: null };
     }
-      // find a user by their email
-    const users = await store.users.findOrCreate({where: {email}});
+    // find a user by their email
+    const users = await store.users.findOrCreate({ where: { email } });
     const user = (users && users[0]) || null;
 
-    return {user: {...user.dataValues}};
+    return { user: { ...user.dataValues } };
   },
   typeDefs,
   resolvers,
